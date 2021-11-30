@@ -1,0 +1,12 @@
+.list-group li{
+    cursor: pointer;
+}
+
+
+.list-group li:hover{
+    background: #eeeeee;
+}
+
+.list-group a {
+    text-decoration: none;
+}
