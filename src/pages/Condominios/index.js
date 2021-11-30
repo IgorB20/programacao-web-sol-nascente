@@ -11,17 +11,22 @@ export default function Condominios() {
 
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [condominiums, setCondominiums] = useState([]); 
+    const [request, setRequest] = useState(true);
 
+    console.log(condominiums);
     useEffect(()=>{
         async function getCondominiums(){
             const request = await fetch("https://api.zion.lucasbatista.me/condominiums");
             const response = await request.json();
 
-            console.log(response)
+            setCondominiums(response);
+            setRequest(false);
+        
         }
 
-        getCondominiums();
-    }, [])
+        if(request) getCondominiums();
+
+    }, [request])
 
     return (
         <>
@@ -35,10 +40,12 @@ export default function Condominios() {
                 </div>
 
                 <ListGroup>
-                    <CondominioItem />
-                    <CondominioItem />
-                    <CondominioItem />
-                    <CondominioItem />
+                   
+                    { 
+                        condominiums.map(condominium=>
+                          <CondominioItem condominium={condominium} />
+                        )
+                    }
                 </ListGroup>
 
                 <Button color="primary" style={{
@@ -55,19 +62,20 @@ export default function Condominios() {
             <CreateModal
                 isOpen={showCreateModal}
                 handleClose={()=>setShowCreateModal(false)}
+                handleFinishSaving={()=>setRequest(true)}
             />
         </>
     );
 }
 
-function CondominioItem() {
+function CondominioItem({ condominium }) {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     let navigate = useNavigate();
 
     function handleClick(){
-        navigate(`/condominio/${5}`)
+        navigate(`/condominio/${condominium.id}`)
     }
 
     function handleEditClick(ev){
@@ -84,8 +92,8 @@ function CondominioItem() {
         <>
             <ListGroupItem className="d-flex justify-content-between" onClick={handleClick}>
                 <div>
-                    <span style={{ fontWeight: "bold", color: "#3d3d3d" }}>Condominio Ouro Brasil - </span>
-                    <span style={{ color: "#696969" }}>14.927.102/0001-61</span>
+                    <span style={{ fontWeight: "bold", color: "#3d3d3d" }}>{condominium.name} - </span>
+                    <span style={{ color: "#696969" }}>{condominium.document}</span>
                 </div>
 
                 <div className="d-flex gap-2">
