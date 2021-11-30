@@ -51,19 +51,22 @@ export default function CreateModal({ isOpen, handleClose, handleFinishSaving })
     function hasEmptyFields() {
         for (var item in values) {
             console.log(values[item])
-            if (values[item] == "") return true;
+            if (values[item] === "") return true;
         }
 
         return false;
     }
 
     function clearFields(){
-        for (var item in values) {
-           setValues({
-               ...values,
-               [item]: ""
-           })
-        }
+       setValues({
+        name: "",
+        cnpj: "",
+        street: "",
+        neighborhood: "",
+        number: "",
+        zipCode: "",
+        city: ""
+    })
     }
 
     return (

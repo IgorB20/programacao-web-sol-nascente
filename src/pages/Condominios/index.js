@@ -43,7 +43,10 @@ export default function Condominios() {
                    
                     { 
                         condominiums.map(condominium=>
-                          <CondominioItem condominium={condominium} />
+                          <CondominioItem
+                            condominium={condominium}
+                            handleFinishSaving={()=>setRequest(true)}
+                        />
                         )
                     }
                 </ListGroup>
@@ -68,7 +71,7 @@ export default function Condominios() {
     );
 }
 
-function CondominioItem({ condominium }) {
+function CondominioItem({ condominium, handleFinishSaving}) {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -109,10 +112,14 @@ function CondominioItem({ condominium }) {
             <EditModal
                 isOpen={showEditModal}
                 handleClose={()=>setShowEditModal(false)}
+                condominium={condominium}
+                handleFinishSaving={handleFinishSaving}
             />
             <ConfirmModal
                 isOpen={showConfirmModal}
                 handleClose={()=>setShowConfirmModal(false)}
+                condominium={condominium}
+                handleFinishSaving={handleFinishSaving}
             />
         </>
 
